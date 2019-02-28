@@ -13,10 +13,29 @@ const Hero = () => {
   );
 };
 
+const Book = props => {
+  return (
+    <div className="answer" onClick={() => props.onAnswerSelected(props.title)}>
+      <h4 style={{ backgroundColor: highlightToBgColor(props.answerBgColor) }}>
+        {props.title}
+      </h4>
+    </div>
+  );
+};
+
+function highlightToBgColor(highlight) {
+  const mapping = {
+    none: "",
+    correct: "green",
+    wrong: "red"
+  };
+  return mapping[highlight];
+}
+
 const Turn = props => {
   console.log(props.dataSource);
   return (
-    <div className="row turn" style={{ backgroundColor: "white" }}>
+    <div className="row turn">
       <div className="col-4 offset-1">
         <img
           //src={props.dataSource.author.imageUrl}
@@ -26,9 +45,11 @@ const Turn = props => {
       </div>
       <div className="col-6">
         {props.dataSource.books.map(title => (
-          <div className="answer">
-            <h4>{title}</h4>
-          </div>
+          <Book
+            title={title}
+            onAnswerSelected={props.onAnswerSelected}
+            answerBgColor={props.answerBgColor}
+          />
         ))}
       </div>
     </div>
@@ -50,11 +71,25 @@ const Footer = () => {
 };
 
 export default class AuthorQuiz extends Component {
+  state = { answerBgColor: "" };
+
+  onAnswerSelected = answer => {
+    const isCorrect = this.props.dataSource.author.books.some(
+      book => book === answer
+    );
+    this.setState({ answerBgColor: isCorrect ? "correct" : "wrong" });
+  };
+
   render() {
     return (
       <div className="container-fluid">
         <Hero />
-        <Turn dataSource={this.props.dataSource} />
+        <Turn
+          // Rule: differences this.props vs this.onFunctionPointer vs this.state.SpecificStateName
+          dataSource={this.props.dataSource}
+          onAnswerSelected={this.onAnswerSelected}
+          answerBgColor={this.state.answerBgColor}
+        />
         <Continue />
         <Footer />
       </div>
