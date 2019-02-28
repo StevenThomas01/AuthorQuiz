@@ -14,7 +14,6 @@ const Hero = () => {
 };
 
 const Turn = props => {
-  console.log(props);
   console.log(props.dataSource);
   return (
     <div className="row turn" style={{ backgroundColor: "white" }}>
