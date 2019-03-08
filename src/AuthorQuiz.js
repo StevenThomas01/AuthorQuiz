@@ -16,9 +16,7 @@ const Hero = () => {
 const Book = props => {
   return (
     <div className="answer" onClick={() => props.onAnswerSelected(props.title)}>
-      <h4 style={{ backgroundColor: highlightToBgColor(props.answerBgColor) }}>
-        {props.title}
-      </h4>
+      <h4>{props.title}</h4>
     </div>
   );
 };
@@ -36,7 +34,10 @@ const Turn = props => {
   console.log(props.dataSource);
   return (
     <div className="row turn">
-      <div className="col-4 offset-1">
+      <div
+        className="col-4 offset-1"
+        style={{ backgroundColor: highlightToBgColor(props.answerBgColor) }}
+      >
         <img
           //src={props.dataSource.author.imageUrl}
           className="authorimage"
